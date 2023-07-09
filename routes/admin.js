@@ -8,18 +8,17 @@ router.post('/signin', adminController.actionSignin);
 router.use(auth);
 router.get('/logout', adminController.actionLogout);
 router.get('/dashboard', adminController.viewDashboard);
-
+// endpoint category
 router.get('/category', adminController.viewCategory);
 router.post('/category', adminController.addCategory);
 router.put('/category', adminController.editCategory);
 router.delete('/category/:id', adminController.deleteCategory);
-
+// endpoint bank
 router.get('/bank', adminController.viewBank);
 router.post('/bank', uploadSingle, adminController.addBank);
 router.put('/bank', uploadSingle, adminController.editBank);
 router.delete('/bank/:id', adminController.deleteBank);
-
-router.get('/item', adminController.viewItem);
+// endpoint item
 router.get('/item', adminController.viewItem);
 router.post('/item', uploadMultiple, adminController.addItem);
 router.get('/item/show-image/:id', adminController.showImageItem);
@@ -36,6 +35,7 @@ router.delete('/item/:itemId/feature/:id', adminController.deleteFeature);
 router.post('/item/add/activity', uploadSingle, adminController.addActivity);
 router.put('/item/update/activity', uploadSingle, adminController.editActivity);
 router.delete('/item/:itemId/activity/:id', adminController.deleteActivity);
+
 
 router.get('/booking', adminController.viewBooking);
 router.get('/booking/:id', adminController.showDetailBooking);

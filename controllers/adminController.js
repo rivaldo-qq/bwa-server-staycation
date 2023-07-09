@@ -5,13 +5,13 @@ const Image = require('../models/Image');
 const Feature = require('../models/Feature');
 const Activity = require('../models/Activity');
 const Booking = require('../models/Booking');
-const Member = require('../models/Member'); 
+const Member = require('../models/Member');
 const Users = require('../models/Users');
 const fs = require('fs-extra');
 const path = require('path');
 const bcrypt = require('bcryptjs')
+
 module.exports = {
-  
   viewSignin: async (req, res) => {
     try {
       const alertMessage = req.flash('alertMessage');
@@ -62,7 +62,7 @@ module.exports = {
     req.session.destroy();
     res.redirect('/admin/signin');
   },
-  
+
   viewDashboard: async (req, res) => {
     try {
       const member = await Member.find();
@@ -132,7 +132,7 @@ module.exports = {
     try {
       const { id } = req.params;
       const category = await Category.findOne({ _id: id });
-      await category.deleteOne();
+      await category.remove();
       req.flash('alertMessage', 'Success Delete Category');
       req.flash('alertStatus', 'success');
       res.redirect('/admin/category');
@@ -216,7 +216,7 @@ module.exports = {
       const { id } = req.params;
       const bank = await Bank.findOne({ _id: id });
       await fs.unlink(path.join(`public/${bank.imageUrl}`));
-      await bank.deleteOne();
+      await bank.remove();
       req.flash('alertMessage', 'Success Delete Bank');
       req.flash('alertStatus', 'success');
       res.redirect('/admin/bank');
@@ -422,7 +422,6 @@ module.exports = {
       res.redirect(`/admin/item/show-detail-item/${itemId}`);
     }
   },
-
   addFeature: async (req, res) => {
     const { name, qty, itemId } = req.body;
 
@@ -650,5 +649,4 @@ module.exports = {
       res.redirect(`/admin/booking/${id}`);
     }
   }
-
 };
