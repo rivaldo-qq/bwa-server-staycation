@@ -6,6 +6,7 @@ var logger = require('morgan');
 const methodOverride = require('method-override');
 const session = require('express-session');
 const flash = require('connect-flash');
+const cors = require('cors');
 //import mongoose
 const mongoose = require('mongoose');
 mongoose.connect('mongodb+srv://rivaldorizqi:rivaldo1285@cluster0.mqp5al9.mongodb.net/db_staycation?retryWrites=true&w=majority',{useNewUrlParser:true,useUnifiedTopology:true});
@@ -28,6 +29,7 @@ app.use(session({
   cookie: { maxAge: 60000 }
 }));
 app.use(flash());
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -38,6 +40,8 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/admin', adminRouter);
 app.use('/api/v1/member', apiRouter);
+
+
 
 
 
