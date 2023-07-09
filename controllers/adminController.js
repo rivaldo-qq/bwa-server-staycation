@@ -5,13 +5,13 @@ const Image = require('../models/Image');
 const Feature = require('../models/Feature');
 const Activity = require('../models/Activity');
 const Booking = require('../models/Booking');
-const Member = require('../models/Member');
+const Member = require('../models/Member'); 
 const Users = require('../models/Users');
 const fs = require('fs-extra');
 const path = require('path');
 const bcrypt = require('bcryptjs')
-
 module.exports = {
+  
   viewSignin: async (req, res) => {
     try {
       const alertMessage = req.flash('alertMessage');
@@ -62,7 +62,7 @@ module.exports = {
     req.session.destroy();
     res.redirect('/admin/signin');
   },
-
+  
   viewDashboard: async (req, res) => {
     try {
       const member = await Member.find();
@@ -70,7 +70,7 @@ module.exports = {
       const item = await Item.find();
       res.render('admin/dashboard/view_dashboard', {
         title: "Staycation | Dashboard",
-        user: req.session.user,
+        
         member,
         booking,
         item
@@ -90,7 +90,7 @@ module.exports = {
         category,
         alert,
         title: "Staycation | Category",
-        user: req.session.user
+        
       });
     } catch (error) {
       res.redirect('/admin/category');
@@ -132,7 +132,7 @@ module.exports = {
     try {
       const { id } = req.params;
       const category = await Category.findOne({ _id: id });
-      await category.remove();
+      await category.deleteOne();
       req.flash('alertMessage', 'Success Delete Category');
       req.flash('alertStatus', 'success');
       res.redirect('/admin/category');
@@ -153,7 +153,7 @@ module.exports = {
         title: "Staycation | Bank",
         alert,
         bank,
-        user: req.session.user
+        
       });
     } catch (error) {
       req.flash('alertMessage', `${error.message}`);
@@ -216,7 +216,7 @@ module.exports = {
       const { id } = req.params;
       const bank = await Bank.findOne({ _id: id });
       await fs.unlink(path.join(`public/${bank.imageUrl}`));
-      await bank.remove();
+      await bank.deleteOne();
       req.flash('alertMessage', 'Success Delete Bank');
       req.flash('alertStatus', 'success');
       res.redirect('/admin/bank');
@@ -243,7 +243,7 @@ module.exports = {
         alert,
         item,
         action: 'view',
-        user: req.session.user
+        
       });
     } catch (error) {
       req.flash('alertMessage', `${error.message}`);
@@ -296,7 +296,7 @@ module.exports = {
         alert,
         item,
         action: 'show image',
-        user: req.session.user
+        
       });
     } catch (error) {
       req.flash('alertMessage', `${error.message}`);
@@ -321,7 +321,7 @@ module.exports = {
         item,
         category,
         action: 'edit',
-        user: req.session.user
+        
       });
     } catch (error) {
       req.flash('alertMessage', `${error.message}`);
@@ -413,7 +413,7 @@ module.exports = {
         itemId,
         feature,
         activity,
-        user: req.session.user
+        
       })
 
     } catch (error) {
@@ -422,6 +422,7 @@ module.exports = {
       res.redirect(`/admin/item/show-detail-item/${itemId}`);
     }
   },
+
   addFeature: async (req, res) => {
     const { name, qty, itemId } = req.body;
 
@@ -592,7 +593,7 @@ module.exports = {
 
       res.render('admin/booking/view_booking', {
         title: "Staycation | Booking",
-        user: req.session.user,
+        
         booking
       });
     } catch (error) {
@@ -613,7 +614,7 @@ module.exports = {
 
       res.render('admin/booking/show_detail_booking', {
         title: "Staycation | Detail Booking",
-        user: req.session.user,
+        
         booking,
         alert
       });
@@ -649,4 +650,5 @@ module.exports = {
       res.redirect(`/admin/booking/${id}`);
     }
   }
+
 };
