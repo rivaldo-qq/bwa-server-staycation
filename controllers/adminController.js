@@ -17,7 +17,14 @@ module.exports = {
       const alertMessage = req.flash('alertMessage');
       const alertStatus = req.flash('alertStatus');
       const alert = { message: alertMessage, status: alertStatus };
-      
+      if (req.session.user == null || req.session.user == undefined) {
+        res.render('index', {
+          alert,
+          title: "Staycation | Login"
+        });
+      } else {
+        res.redirect('/admin/dashboard');
+      }
     } catch (error) {
       res.redirect('/admin/signin');
     }
@@ -63,7 +70,7 @@ module.exports = {
       const item = await Item.find();
       res.render('admin/dashboard/view_dashboard', {
         title: "Staycation | Dashboard",
-        
+        user: req.session.user,
         member,
         booking,
         item
@@ -83,7 +90,7 @@ module.exports = {
         category,
         alert,
         title: "Staycation | Category",
-        
+        user: req.session.user
       });
     } catch (error) {
       res.redirect('/admin/category');
@@ -146,7 +153,7 @@ module.exports = {
         title: "Staycation | Bank",
         alert,
         bank,
-        
+        user: req.session.user
       });
     } catch (error) {
       req.flash('alertMessage', `${error.message}`);
@@ -236,7 +243,7 @@ module.exports = {
         alert,
         item,
         action: 'view',
-        
+        user: req.session.user
       });
     } catch (error) {
       req.flash('alertMessage', `${error.message}`);
@@ -289,7 +296,7 @@ module.exports = {
         alert,
         item,
         action: 'show image',
-        
+        user: req.session.user
       });
     } catch (error) {
       req.flash('alertMessage', `${error.message}`);
@@ -314,7 +321,7 @@ module.exports = {
         item,
         category,
         action: 'edit',
-        
+        user: req.session.user
       });
     } catch (error) {
       req.flash('alertMessage', `${error.message}`);
@@ -406,7 +413,7 @@ module.exports = {
         itemId,
         feature,
         activity,
-        
+        user: req.session.user
       })
 
     } catch (error) {
@@ -586,7 +593,7 @@ module.exports = {
 
       res.render('admin/booking/view_booking', {
         title: "Staycation | Booking",
-        
+        user: req.session.user,
         booking
       });
     } catch (error) {
@@ -607,7 +614,7 @@ module.exports = {
 
       res.render('admin/booking/show_detail_booking', {
         title: "Staycation | Detail Booking",
-        
+        user: req.session.user,
         booking,
         alert
       });
