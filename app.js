@@ -29,7 +29,7 @@ app.use(session({
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: true,
-  cookie: { maxAge: 99999999999 }
+  cookie: { maxAge: Date.now() + (30 * 86400 * 1000) }
 }));
 app.use(flash());
 app.use(cors());
